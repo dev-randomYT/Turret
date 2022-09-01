@@ -13,6 +13,12 @@ import time
 location_x = 0
 location_y = 0
 
+gpio_up = 5
+gpio_down = 6
+gpio_left = 13
+gpio_right = 19
+
+
 #For Global Width And Height Variables
 _x = 0
 _w = 0
@@ -28,6 +34,17 @@ moving_down = False
 #Debugging
 direction = ""
 pitch = ""
+
+def py_init():
+    ##Init Board
+    #GPIO.setmode(GPIO.BOARD)
+
+    ##Init GPIO Pins
+    #GPIO.setup(gpio_up, GPIO.OUT)
+    #GPIO.setup(gpio_down, GPIO.OUT)
+    #GPIO.setup(gpio_left, GPIO.OUT)
+    #GPIO.setup(gpio_right, GPIO.OUT)
+    pass
 
 def move_left():
     pass
@@ -74,18 +91,22 @@ while True:
         if location_x >= 215:
             turning_left = True
             direction = "Left"
+            move_left()
         
         elif location_x <= 195:
             turning_right = True
             direction = "Right"
+            move_right()
         
         if location_y >= 195:
             moving_up = True
             pitch = "Down"
+            move_down()
         
         elif location_y <= 165:
             moving_down = True
             pitch = "Up"
+            move_up()
         
         elif location_x >= 180 and location_x <= 200:
             direction = "Null"
@@ -104,5 +125,5 @@ while True:
     if k==27:
         break
 
-# Release the VideoCapture object
+# Release the Video Capture object
 cap.release()
