@@ -5,6 +5,8 @@ import time
 # TO DO                                     #
 # - Create A Function To Move Left Or Right #
 # - Put On Raspberry Pi                     #
+#  - Get The Port Setup                     #
+#  - Get Webcam Working                     #
 #############################################
 
 #Facial Location
@@ -62,6 +64,7 @@ while True:
         location_x = (x + w) /2
         location_y = (y + h) /2
 
+        #Global Variables For x, y, w, h to use in fucntions etc...
         _x = x
         _y = y
         _w = w
@@ -96,6 +99,7 @@ while True:
     #Print Face Position
     print("X = " + str(int(location_x)) + " Y = " + str(int(location_y)) + " | " +"Currently Turning: " + direction + " Currently Angling: " + pitch + " | ")
 
+    #Wait For Esc To Quit Program
     k = cv2.waitKey(30) & 0xff
     if k==27:
         break
