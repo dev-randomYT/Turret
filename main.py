@@ -1,4 +1,5 @@
 import cv2
+import time
 
 #############################################
 # TO DO                                     #
@@ -6,15 +7,23 @@ import cv2
 # - Put On Raspberry Pi                     #
 #############################################
 
-
+#Facial Location
 location_x = 0
 location_y = 0
 
+#For Global Width And Height Variables
+_x = 0
+_w = 0
+_y = 0
+_h = 0
+
+#Booleans For Movement Of Servos
 turning_left = False
 turning_right = False
 moving_up = False
 moving_down = False
 
+#Debugging
 direction = ""
 pitch = ""
 
@@ -53,36 +62,39 @@ while True:
         location_x = (x + w) /2
         location_y = (y + h) /2
 
+        _x = x
+        _y = y
+        _w = w
+        _h = h
+
         #Run Fucntion Based On Location Of The Face
-        if location_x >= 200:
+        if location_x >= 215:
             turning_left = True
             direction = "Left"
         
-        elif location_x <= 180:
+        elif location_x <= 195:
             turning_right = True
             direction = "Right"
         
-        if location_y >= 210:
+        if location_y >= 195:
             moving_up = True
-            pitch = "Up"
+            pitch = "Down"
         
         elif location_y <= 165:
             moving_down = True
-            pitch = "Down"
+            pitch = "Up"
         
         elif location_x >= 180 and location_x <= 200:
             direction = "Null"
         
         elif location_y >= 165 and location_x <= 185:
             pitch = "Flat"
-        
-        fps = cap.get(cv2.CAP_PROP_FPS)
-
-        #Print Face Position
-        print("X = " + str(int(location_x)) + " Y = " + str(int(location_y)) + " | " +"Currently Turning: " + direction + " Currently Angling: " + pitch + " | " + "Framerate: " + format(fps))
     
     #Show Live Video
     cv2.imshow('Turret View', img)
+
+    #Print Face Position
+    print("X = " + str(int(location_x)) + " Y = " + str(int(location_y)) + " | " +"Currently Turning: " + direction + " Currently Angling: " + pitch + " | ")
 
     k = cv2.waitKey(30) & 0xff
     if k==27:
