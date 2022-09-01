@@ -47,15 +47,29 @@ def py_init():
     pass
 
 def move_left():
+    #GPIO.output(gpio_left, GPIO.HIGH)
     pass
 
 def move_right():
+    #GPIO.output(gpio_right, GPIO.HIGH)
     pass
 
 def move_up():
+    #GPIO.output(gpio_up, GPIO.HIGH)
     pass
 
 def move_down():
+    #GPIO.output(gpio_down, GPIO.HIGH)
+    pass
+
+def stop_move_x():
+    #GPIO.output(gpio_left, GPIO.LOW)
+    #GPIO.output(gpio_right, GPIO.LOW)
+    pass
+
+def stop_move_y():
+    #GPIO.output(gpio_up, GPIO.LOW)
+    #GPIO.output(gpio_down, GPIO.LOW)
     pass
 
 face_cascade = cv2.CascadeClassifier('trained.xml')
@@ -110,9 +124,11 @@ while True:
         
         elif location_x >= 180 and location_x <= 200:
             direction = "Null"
+            stop_move_x()
         
         elif location_y >= 165 and location_x <= 185:
             pitch = "Flat"
+            stop_move_y()
     
     #Show Live Video
     cv2.imshow('Turret View', img)
