@@ -88,6 +88,7 @@ face_cascade = cv2.CascadeClassifier('trained.xml')
 cap = cv2.VideoCapture(0)
 
 while True:
+    start = time.time()
 
     # Read the frame
     _, img = cap.read()
@@ -111,8 +112,8 @@ while True:
         _y = y
         _w = w
         _h = h
-        pos_x = (_x + _w) / 2
-        pos_y = (_y + _h) /2
+        pos_x = location_x
+        pos_y = location_y
 
         #Run Fucntion Based On Location Of The Face
         if location_x >= 215:
@@ -146,12 +147,15 @@ while True:
         else:
             halt()
 
+    time_elapsed = time.time() - start
+    fps = 1 / time_elapsed
+
     
     #Show Live Video
     cv2.imshow('Turret View', img)
 
     #Print Face Position
-    print("X = " + str(int(location_x)) + " Y = " + str(int(location_y)) + " | " +"Currently Turning: " + direction + " Currently Angling: " + pitch + " | ")
+    print("X = " + str(int(location_x)) + " Y = " + str(int(location_y)) + " | " +"Currently Turning: " + direction + " Currently Angling: " + pitch + " | " + "FPS:", round(fps, 1))
 
     #Wait For Esc To Quit Program
     k = cv2.waitKey(30) & 0xff
