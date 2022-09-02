@@ -13,17 +13,20 @@ import time
 location_x = 0
 location_y = 0
 
+#GPIO definitions
 gpio_up = 5
 gpio_down = 6
 gpio_left = 13
 gpio_right = 19
 
 
-#For Global Width And Height Variables
+#For Global Width And Height Variables (Used For Calculations)
 _x = 0
 _w = 0
 _y = 0
 _h = 0
+pos_x = 0
+pos_y = 0
 
 #Booleans For Movement Of Servos
 turning_left = False
@@ -72,12 +75,20 @@ def stop_move_y():
     #GPIO.output(gpio_down, GPIO.LOW)
     pass
 
+def halt():
+    #GPIO.output(gpio_up, GPIO.LOW)
+    #GPIO.output(gpio_down, GPIO.LOW)
+    #GPIO.output(gpio_left, GPIO.LOW)
+    #GPIO.output(gpio_right, GPIO.LOW)
+    pass
+
 face_cascade = cv2.CascadeClassifier('trained.xml')
 
 # To capture video from webcam. 
 cap = cv2.VideoCapture(0)
 
 while True:
+
     # Read the frame
     _, img = cap.read()
 
@@ -95,11 +106,13 @@ while True:
         location_x = (x + w) /2
         location_y = (y + h) /2
 
-        #Global Variables For x, y, w, h to use in fucntions etc...
+        #Global Variables For x, y, w, h, pos_x, pos_y to use in fucntions etc...
         _x = x
         _y = y
         _w = w
         _h = h
+        pos_x = (_x + _w) / 2
+        pos_y = (_y + _h) /2
 
         #Run Fucntion Based On Location Of The Face
         if location_x >= 215:
@@ -126,9 +139,13 @@ while True:
             direction = "Null"
             stop_move_x()
         
-        elif location_y >= 165 and location_x <= 185:
+        elif location_y >= 165 and location_x <= 195:
             pitch = "Flat"
             stop_move_y()
+
+        else:
+            halt()
+
     
     #Show Live Video
     cv2.imshow('Turret View', img)
